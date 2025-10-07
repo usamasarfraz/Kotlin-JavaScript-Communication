@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 export function useWebSocket(url) {
   const [socket, setSocket] = useState(null);
   const [activeUsers, setActiveUsers] = useState([]);
+  const [files, setFiles] = useState([]);
 
   useEffect(() => {
     const ws = new WebSocket(url);
@@ -13,16 +14,19 @@ export function useWebSocket(url) {
     };
 
     ws.onmessage = (event) => {
-      try {
-        const msg = JSON.parse(event.data);
-
-        if (msg.type === "active_users") {
+      const msg = JSON.parse(event.data);
+      switch (msg.type) {
+        case "active_users":
           setActiveUsers(msg.users || []);
-        } else {
-          console.log("📩 Received message:", msg);
-        }
-      } catch (e) {
-        console.error("Failed to parse message", e);
+          break;
+        case "available_files":
+          setFiles(msg.files || []);
+          break;
+        case "file_saved":
+          console.log(`💾 File saved on server: ${msg.name}`);
+          break;
+        default:
+          console.log("📩 Message:", msg);
       }
     };
 
@@ -71,5 +75,5 @@ export function useWebSocket(url) {
     }
   };
 
-  return { socket, activeUsers, sendMsg, sendFile };
+  return { socket, activeUsers, files, sendMsg, sendFile };
 }

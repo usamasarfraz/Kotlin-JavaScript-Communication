@@ -1,15 +1,17 @@
+import { useState } from "react";
 import ActiveUsersPanel from "./ActiveUsersPanel.jsx";
+import AvailableFilesPanel from "./AvailableFilesPanel.jsx";
+import UploadFilePanel from "./UploadFilePanel.jsx";
 import { useWebSocket } from "./socket";
 
 export default function App() {
-  const { activeUsers, sendFile, sendMsg } = useWebSocket("ws://localhost:8080");
+  const { activeUsers, files, sendFile, sendMsg } = useWebSocket("ws://localhost:8080");
+  const [selectedFile, setSelectedFile] = useState(null);
   return (
     <div style={{ padding: 20 }}>
-      <input
-        type="file"
-        onChange={(e) => e.target.files[0] && sendFile(e.target.files[0])}
-      />
-      <ActiveUsersPanel users={activeUsers} sendMsg={sendMsg} />
+      <UploadFilePanel sendFile={sendFile} />
+      <AvailableFilesPanel files={files} selectedFile={selectedFile} setSelectedFile={setSelectedFile} />
+      <ActiveUsersPanel users={activeUsers} sendMsg={sendMsg} selectedFile={selectedFile} />
     </div>
   );
 }
