@@ -3,7 +3,7 @@ export default function ActiveUsersPanel({ users, sendMsg }) {
   const [selectedUser, setSelectedUser] = useState(null);
 
   const handleSendFileToUser = () => {
-    if (selectedUser) {
+    if (selectedUser !== null) {
       sendMsg({ event: "send_file_to", user: selectedUser });
     } else {
       alert("Please select a user first");
@@ -26,17 +26,17 @@ export default function ActiveUsersPanel({ users, sendMsg }) {
       <ul style={{ listStyle: "none", padding: 0 }}>
         {users.map((user) => (
           <li
-            key={user}
+            key={user.id}
             style={{
               padding: "4px 0",
               borderBottom: "1px solid #eee",
               fontSize: "14px",
             }}
           >
-            {user}{" "}
+            {user.id}{" "}
             <input
               type="radio"
-              value={selectedUser}
+              value={user.id}
               name="user"
               onChange={(e) => setSelectedUser(e.target.value)}
             />
