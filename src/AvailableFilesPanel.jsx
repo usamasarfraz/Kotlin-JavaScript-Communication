@@ -31,7 +31,7 @@ export default function AvailableFilesPanel({
             {f}{" "}
             <input
               type="radio"
-              value={selectedFile}
+              value={f}
               name="files"
               onChange={(e) => setSelectedFile(e.target.value)}
             />
