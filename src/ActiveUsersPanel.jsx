@@ -1,10 +1,14 @@
 import { useState } from "react";
-export default function ActiveUsersPanel({ users, sendMsg, selectedFile }) {
+export default function ActiveUsersPanel({ users, sendMsg, selectedFile, progressMsg }) {
   const [selectedUser, setSelectedUser] = useState(null);
 
   const handleSendFileToUser = () => {
     if (selectedUser !== null) {
-      sendMsg({ event: "send_file_to", user: selectedUser, file: selectedFile });
+      sendMsg({
+        event: "send_file_to",
+        user: selectedUser,
+        file: selectedFile,
+      });
     } else {
       alert("Please select a user first");
     }
@@ -45,6 +49,9 @@ export default function ActiveUsersPanel({ users, sendMsg, selectedFile }) {
       </ul>
       <div style={{ marginTop: "10px" }}>
         <button onClick={handleSendFileToUser}>Send File</button>
+        <div style={{ fontSize: "15px", color: "#555", marginTop: "5px" }}>
+          {progressMsg ? progressMsg : ""}
+        </div>
       </div>
     </div>
   );

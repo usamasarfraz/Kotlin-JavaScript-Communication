@@ -4,6 +4,7 @@ export function useWebSocket(url) {
   const [socket, setSocket] = useState(null);
   const [activeUsers, setActiveUsers] = useState([]);
   const [files, setFiles] = useState([]);
+  const [progressMsg, setProgressMsg] = useState("");
 
   useEffect(() => {
     const ws = new WebSocket(url);
@@ -24,6 +25,9 @@ export function useWebSocket(url) {
           break;
         case "file_saved":
           console.log(`💾 File saved on server: ${msg.name}`);
+          break;
+        case "file_transfer_progress":
+          setProgressMsg(msg.progress);
           break;
         default:
           console.log("📩 Message:", msg);
@@ -75,5 +79,5 @@ export function useWebSocket(url) {
     }
   };
 
-  return { socket, activeUsers, files, sendMsg, sendFile };
+  return { socket, activeUsers, files, sendMsg, sendFile, progressMsg };
 }
