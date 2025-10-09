@@ -27,7 +27,7 @@ export function useWebSocket(url) {
           console.log(`💾 File saved on server: ${msg.name}`);
           break;
         case "file_transfer_progress":
-          setProgressMsg(msg.progress);
+          setProgressMsg(msg.msg);
           break;
         default:
           console.log("📩 Message:", msg);
