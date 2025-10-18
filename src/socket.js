@@ -29,6 +29,10 @@ export function useWebSocket(url) {
         case "file_transfer_progress":
           setProgressMsg(msg.msg);
           break;
+        case "file_received":
+          setFiles((prevFiles) => [...prevFiles, msg.file]);
+          // alert(`New File (${msg.file}) Received.`);
+          break;
         default:
           console.log("📩 Message:", msg);
       }
