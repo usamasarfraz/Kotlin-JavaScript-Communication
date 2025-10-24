@@ -5,6 +5,8 @@ export function useWebSocket(url) {
   const [activeUsers, setActiveUsers] = useState([]);
   const [files, setFiles] = useState([]);
   const [progressMsg, setProgressMsg] = useState("");
+  const [pcState, setPcState] = useState("");
+  const [dcState, setDcState] = useState("");
 
   useEffect(() => {
     const ws = new WebSocket(url);
@@ -32,6 +34,10 @@ export function useWebSocket(url) {
         case "file_received":
           setFiles((prevFiles) => [...prevFiles, msg.file]);
           // alert(`New File (${msg.file}) Received.`);
+          break;
+        case "connection_state":
+          setPcState(msg.pc);
+          setDcState(msg.dc);
           break;
         default:
           console.log("📩 Message:", msg);
@@ -83,5 +89,5 @@ export function useWebSocket(url) {
     }
   };
 
-  return { socket, activeUsers, files, sendMsg, sendFile, progressMsg };
+  return { socket, activeUsers, files, sendMsg, sendFile, progressMsg, pcState, dcState };
 }
